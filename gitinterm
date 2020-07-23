@@ -1,0 +1,23 @@
+# git push in terminal
+## nem kell
+echo "# ls bash by ati" >> README.md
+##git betölt.
+```bash
+git init
+```
+## hozzáadjuk a filet
+```bash
+git add README.md
+```
+## commitoljuk
+```bash
+git commit -m "ls bash sh by ati"
+```
+## hozzá adjuk a megfelelő részhez
+```bash
+git remote add origin git@github.com:irdmeg/learning.git
+```
+## pusholjuk
+```bash
+git push -u origin master
+```
