@@ -1,0 +1,71 @@
+kikomentelt
+```bash
+systemctl enable ssh
+systemctl start ssh
+```
+-test ssh
+ssh user@server-name
+22port kinyítása és beállítása
+```bash
+$ sudo ufw allow ssh
+$ sudo ufw enable
+$ sudo ufw status
+```
+config fájl
+nano ~/.ssh/config
+
+```
+ kikomentelt
+
+ vsftp’s main directory has to be owned by root in order for chroot to work. 750 Chmod will mean that the world has no 
+  access to his main directory. He is free to create sub-directories and files.
+
+ ```bash
+
+ chmod -R ugo+rw /home/vsftp
+
+ ```
+
+ Again if you have selinux, you’d want to run the 
+  following commands to allow Apache webserver to 
+  serve files within vsftp’s directories and also read/
+  write to specific ones
+
+ but we not have apacha
+
+ ```bash
+
+ chcon -R -t httpd_sys_content_t /home/vsftp/www
+
+ chcon -R -t httpd_sys_content_rw_t /home/vsftp/www/dir/for/rw
+
+ ```
+
+
+ Add the following ports to your firewall. First port 21 (standard FTP), port 20 (FTP’s data port), then the other 
+  ports are passive range ports so that your vsftpd uses an exclusive set of ports and not any random ports (which can 
+  cause problems with directory listing and access)
+
+ ```bash
+
+ firewall-cmd --permanent --zone=public --add-port=21/tcp
+
+ firewall-cmd --permanent --zone=public --add-port=20/tcp
+
+ firewall-cmd --permanent --zone=public --add-port=22/tcp
+
+ firewall-cmd --permanent --zone=public --add-port=10000-10100/tcp
+
+ firewall-cmd --reload
+
+ ```
+
+ If you are using SELinux, to make sure you don’t run into any problem, run the following commands to whitelist your 
+  ftp user’s directories
+
+ ```bash
+
+ setsebool -P home/vsftp on
+
+ ```
+ ```
