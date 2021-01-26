@@ -1,0 +1,1807 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.0">
+    
+    
+      
+        <title>rsync - General Wiki's - wiki.irdmeg.hu</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.89dc9fe3.min.css">
+      
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rsync" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../.." title="General Wiki's - wiki.irdmeg.hu" class="md-header-nav__button md-logo" aria-label="General Wiki's - wiki.irdmeg.hu">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" /></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            General Wiki's - wiki.irdmeg.hu
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              rsync
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="General Wiki's - wiki.irdmeg.hu" class="md-nav__button md-logo" aria-label="General Wiki's - wiki.irdmeg.hu">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" /></svg>
+
+    </a>
+    General Wiki's - wiki.irdmeg.hu
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../test/" title="This is an tag" class="md-nav__link">
+      This is an <h1> tag
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Docker
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Docker" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Docker
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/Ackee/" title="Ackee" class="md-nav__link">
+      Ackee
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/Grafana/" title="Grafana&Loki&Prometheus" class="md-nav__link">
+      Grafana&Loki&Prometheus
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/Jenkins/" title="Jenkins" class="md-nav__link">
+      Jenkins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/Node/" title="Node React app" class="md-nav__link">
+      Node React app
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/apache/" title="apache & wordpress & certbot in docker" class="md-nav__link">
+      apache & wordpress & certbot in docker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/certbot/" title="certbot install" class="md-nav__link">
+      certbot install
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/convos/" title="Convos" class="md-nav__link">
+      Convos
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/gitlab/" title="Gitlab" class="md-nav__link">
+      Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/kanboard/" title="Kanboard" class="md-nav__link">
+      Kanboard
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/pritunl/" title="Pritunl" class="md-nav__link">
+      Pritunl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/traefik/" title="Traefik" class="md-nav__link">
+      Traefik
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/wekan/" title="Wekan" class="md-nav__link">
+      Wekan
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-13" type="checkbox" id="nav-2-13">
+    
+    <label class="md-nav__link" for="nav-2-13">
+      FTPD
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="FTPD" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        FTPD
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/FTPD/proftpd/" title="Proftpd" class="md-nav__link">
+      Proftpd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/FTPD/pureftpd/" title="Pureftpd" class="md-nav__link">
+      Pureftpd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/FTPD/vsftpd/" title="vsftpd" class="md-nav__link">
+      vsftpd
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Install
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Install" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Install
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/bitwarden/" title="bitwarden" class="md-nav__link">
+      bitwarden
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/code-server/" title="code szerver" class="md-nav__link">
+      code szerver
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/gitter/" title="Gitter" class="md-nav__link">
+      Gitter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/guacamole/" title="Guacamole" class="md-nav__link">
+      Guacamole
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/homelabos/" title="Homelabos" class="md-nav__link">
+      Homelabos
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/odoo/" title="Odoo" class="md-nav__link">
+      Odoo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/passbolt/" title="passbolt" class="md-nav__link">
+      passbolt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/privatebin/" title="PrivateBin" class="md-nav__link">
+      PrivateBin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Install/teleport/" title="Teleport" class="md-nav__link">
+      Teleport
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Terraform
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Terraform" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Terraform
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Terraform/aws-vpc/" title="Terraform VPC peering" class="md-nav__link">
+      Terraform VPC peering
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Api
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Api" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Api
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/curl/" title="api with curl" class="md-nav__link">
+      api with curl
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    
+    <label class="md-nav__link" for="nav-6">
+      Egyéb
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Egyéb" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Egyéb
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../alapparancsok/" title="simple commands" class="md-nav__link">
+      simple commands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../githubactions/" title="Github actions" class="md-nav__link">
+      Github actions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gitlab-ci/" title="Gitlab-ci" class="md-nav__link">
+      Gitlab-ci
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nixstats/" title="Nixstats" class="md-nav__link">
+      Nixstats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../python/" title="Python" class="md-nav__link">
+      Python
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../reversproxy-nginx/" title="Revers proxy config- nginx" class="md-nav__link">
+      Revers proxy config- nginx
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        rsync
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="rsync" class="md-nav__link md-nav__link--active">
+      rsync
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#passbolt-bitwarden-koltoztetese" class="md-nav__link">
+    passbolt, bitwarden költöztetése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ez-mind2-esetre-alkalmazando" class="md-nav__link">
+    ez mind2 esetre alkalmazandó
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-felepitese" class="md-nav__link">
+    command felépítése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passbolt-atkoltoztetese" class="md-nav__link">
+    passbolt átköltöztetése
+  </a>
+  
+    <nav class="md-nav" aria-label="passbolt átköltöztetése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elotte-leallitjuk-a-passboltot-hibakat-okozhat-ha-futto-allapotban-koltoztetjuk" class="md-nav__link">
+    előtte leállítjuk a passboltot, hibákat okozhat ha futtó állapotban költöztetjük
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-passbolt-egesz-mappajat-visszuk" class="md-nav__link">
+    a passbolt egész mappáját visszük
+  </a>
+  
+    <nav class="md-nav" aria-label="a passbolt egész mappáját visszük">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-cel-szerveren-elinditjuk-a-docker-compost" class="md-nav__link">
+    a cél szerveren elindítjuk a docker-compost
+  </a>
+  
+    <nav class="md-nav" aria-label="a cél szerveren elindítjuk a docker-compost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-f-azert-kell-mert-fajlbol-inditjuk-nem-vagyunk-a-mappajaban" class="md-nav__link">
+    -f azért kell mert fájlból indítjuk; nem vagyunk a mappájában
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekkor-letolti-a-kontenerhez-imageseket" class="md-nav__link">
+    ekkor letölti a konténerhez imageseket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ha-ez-sikeresen-megtortent-le-downoljuk-a-docker-compost" class="md-nav__link">
+    ha ez sikeresen megtörtént le downoljuk a docker-compost
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ezutnan-torolnunk-kell-amit-voljumokon-letre-hozott-maganak-adatbazis-adatokat" class="md-nav__link">
+    ezutnán törölnünk kell amit voljumokon létre hozott magának adatbázis adatokat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ezt-azert-kell-mert-a-ymlben-benne-van-h-maganak-hozza-ezeket-letre" class="md-nav__link">
+    ezt azért kell mert a ymlben benne van h magának hozza ezeket létre
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ha-nem-igy-lenne-besirna-h-mar-ott-van-de-igy-nem-problema-ha-felul-irjuk-lecsereljok-oket" class="md-nav__link">
+    ha nem így lenne besírna h már ott van, de így nem próbléma ha felül írjuk, lecseréljök őket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ymlben-a-volumes-deklaralas-jelen-esetben-igy-nezett-ki" class="md-nav__link">
+    ymlben a volumes deklarálás jelen esetben így nézett ki
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ezzel-bele-lepunk-minden-mappaba-amit-a-varlibdockervolumes-tartalmaz-majd-azokban-toroli-a-_data-t-tartalmazo-fajlokat-es-azok-tartalmat" class="md-nav__link">
+    ezzel bele lépünk minden mappába amit a /var/lib/docker/volumes/ tartalmaz, majd azokban töröli a _data-t tartalmazó fájlokat és azok tartalmát
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#at-masoljuk-a-szukseges-adatbazis-adatokat" class="md-nav__link">
+    át másoljuk a szükséges adatbázis adatokat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-weblap-validalashoz-szukseg-volt-nginx-re-igy-azt-is-at-masoljuk" class="md-nav__link">
+    a weblap validáláshoz szükség volt nginx-re így azt is át másoljuk
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valamint-a-tanusitvanyokat-is-amit-a-letsencrypt-generalt" class="md-nav__link">
+    valamint a tanusítványokat is amit a letsencrypt generált
+  </a>
+  
+    <nav class="md-nav" aria-label="valamint a tanusítványokat is amit a letsencrypt generált">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#majd-a-cel-gepen-telepitjuk-majd-el-is-inditjuk-azt" class="md-nav__link">
+    majd a cél gépen telepítjük, majd el is indítjuk azt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vegul-a-docker-compose-up-ot-ismet-kiadjuk" class="md-nav__link">
+    végül a docker-compose up-ot ismét kiadjuk
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitwarden-koltoztetese" class="md-nav__link">
+    BITWARDEN költöztetése
+  </a>
+  
+    <nav class="md-nav" aria-label="BITWARDEN költöztetése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eloszor-is-ezt-is-le-kell-allitani" class="md-nav__link">
+    Előszőr is ezt is le kell állítani
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#itt-egyszerubb-a-helyzet-mert-a-voljumok-helye-mindenhol-pontosan-meg-van-adva" class="md-nav__link">
+    itt egyszerűbb a helyzet mert a voljumok helye mindenhol pontosan meg van adva
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bwdata-masolas-itt-ip-vel" class="md-nav__link">
+    bwdata másolás, itt ip-vel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probalhatjuk-inditani-de-ezt-scriptbol-kell" class="md-nav__link">
+    próbálhatjuk indítani, de ezt scriptből kell
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-is-lehet-tolteni-a-bitwardensh-t-de-azt-is-masoltam" class="md-nav__link">
+    le is lehet tölteni a bitwarden.sh-t de azt is másoltam
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inditjuk-a-scriptet" class="md-nav__link">
+    inditjuk a scriptet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Provider
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Provider" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Provider
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../provider/upcloud/" title="upcload" class="md-nav__link">
+      upcload
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Scripts
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Scripts" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Scripts
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/apache2statuslog/" title="Status log apache2" class="md-nav__link">
+      Status log apache2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/apachebackup/" title="apachebackup" class="md-nav__link">
+      apachebackup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/backupsimple/" title="backup simple script" class="md-nav__link">
+      backup simple script
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/bashcommands/" title="bash alapok" class="md-nav__link">
+      bash alapok
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/docker/" title="Docker install" class="md-nav__link">
+      Docker install
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/emailpy/" title="emailt küldő script" class="md-nav__link">
+      emailt küldő script
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/emailsenderphp/" title="Email sender php" class="md-nav__link">
+      Email sender php
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/pre-commit/" title="Setup Git Hooks" class="md-nav__link">
+      Setup Git Hooks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/sorszam/" title="sorszam" class="md-nav__link">
+      sorszam
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../scripts/while/" title="While" class="md-nav__link">
+      While
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Swarm
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Swarm" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Swarm
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../swarm/Teleport/" title="Teleport" class="md-nav__link">
+      Teleport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../swarm/swarm/" title="swarm" class="md-nav__link">
+      swarm
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Szerver
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Szerver" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Szerver
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../szerver/bash/" title="PATH" class="md-nav__link">
+      PATH
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../szerver/crontab/" title="cron" class="md-nav__link">
+      cron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../szerver/disk/" title="Disk management" class="md-nav__link">
+      Disk management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../szerver/gitinterm/" title="git" class="md-nav__link">
+      git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../szerver/init/" title="rendszerrel indulok scriptek" class="md-nav__link">
+      rendszerrel indulok scriptek
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../szerver/psql/" title="Psql" class="md-nav__link">
+      Psql
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../szerver/rsa/" title="RSA" class="md-nav__link">
+      RSA
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#passbolt-bitwarden-koltoztetese" class="md-nav__link">
+    passbolt, bitwarden költöztetése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ez-mind2-esetre-alkalmazando" class="md-nav__link">
+    ez mind2 esetre alkalmazandó
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-felepitese" class="md-nav__link">
+    command felépítése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passbolt-atkoltoztetese" class="md-nav__link">
+    passbolt átköltöztetése
+  </a>
+  
+    <nav class="md-nav" aria-label="passbolt átköltöztetése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elotte-leallitjuk-a-passboltot-hibakat-okozhat-ha-futto-allapotban-koltoztetjuk" class="md-nav__link">
+    előtte leállítjuk a passboltot, hibákat okozhat ha futtó állapotban költöztetjük
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-passbolt-egesz-mappajat-visszuk" class="md-nav__link">
+    a passbolt egész mappáját visszük
+  </a>
+  
+    <nav class="md-nav" aria-label="a passbolt egész mappáját visszük">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-cel-szerveren-elinditjuk-a-docker-compost" class="md-nav__link">
+    a cél szerveren elindítjuk a docker-compost
+  </a>
+  
+    <nav class="md-nav" aria-label="a cél szerveren elindítjuk a docker-compost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-f-azert-kell-mert-fajlbol-inditjuk-nem-vagyunk-a-mappajaban" class="md-nav__link">
+    -f azért kell mert fájlból indítjuk; nem vagyunk a mappájában
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekkor-letolti-a-kontenerhez-imageseket" class="md-nav__link">
+    ekkor letölti a konténerhez imageseket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ha-ez-sikeresen-megtortent-le-downoljuk-a-docker-compost" class="md-nav__link">
+    ha ez sikeresen megtörtént le downoljuk a docker-compost
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ezutnan-torolnunk-kell-amit-voljumokon-letre-hozott-maganak-adatbazis-adatokat" class="md-nav__link">
+    ezutnán törölnünk kell amit voljumokon létre hozott magának adatbázis adatokat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ezt-azert-kell-mert-a-ymlben-benne-van-h-maganak-hozza-ezeket-letre" class="md-nav__link">
+    ezt azért kell mert a ymlben benne van h magának hozza ezeket létre
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ha-nem-igy-lenne-besirna-h-mar-ott-van-de-igy-nem-problema-ha-felul-irjuk-lecsereljok-oket" class="md-nav__link">
+    ha nem így lenne besírna h már ott van, de így nem próbléma ha felül írjuk, lecseréljök őket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ymlben-a-volumes-deklaralas-jelen-esetben-igy-nezett-ki" class="md-nav__link">
+    ymlben a volumes deklarálás jelen esetben így nézett ki
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ezzel-bele-lepunk-minden-mappaba-amit-a-varlibdockervolumes-tartalmaz-majd-azokban-toroli-a-_data-t-tartalmazo-fajlokat-es-azok-tartalmat" class="md-nav__link">
+    ezzel bele lépünk minden mappába amit a /var/lib/docker/volumes/ tartalmaz, majd azokban töröli a _data-t tartalmazó fájlokat és azok tartalmát
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#at-masoljuk-a-szukseges-adatbazis-adatokat" class="md-nav__link">
+    át másoljuk a szükséges adatbázis adatokat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-weblap-validalashoz-szukseg-volt-nginx-re-igy-azt-is-at-masoljuk" class="md-nav__link">
+    a weblap validáláshoz szükség volt nginx-re így azt is át másoljuk
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valamint-a-tanusitvanyokat-is-amit-a-letsencrypt-generalt" class="md-nav__link">
+    valamint a tanusítványokat is amit a letsencrypt generált
+  </a>
+  
+    <nav class="md-nav" aria-label="valamint a tanusítványokat is amit a letsencrypt generált">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#majd-a-cel-gepen-telepitjuk-majd-el-is-inditjuk-azt" class="md-nav__link">
+    majd a cél gépen telepítjük, majd el is indítjuk azt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vegul-a-docker-compose-up-ot-ismet-kiadjuk" class="md-nav__link">
+    végül a docker-compose up-ot ismét kiadjuk
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitwarden-koltoztetese" class="md-nav__link">
+    BITWARDEN költöztetése
+  </a>
+  
+    <nav class="md-nav" aria-label="BITWARDEN költöztetése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eloszor-is-ezt-is-le-kell-allitani" class="md-nav__link">
+    Előszőr is ezt is le kell állítani
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#itt-egyszerubb-a-helyzet-mert-a-voljumok-helye-mindenhol-pontosan-meg-van-adva" class="md-nav__link">
+    itt egyszerűbb a helyzet mert a voljumok helye mindenhol pontosan meg van adva
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bwdata-masolas-itt-ip-vel" class="md-nav__link">
+    bwdata másolás, itt ip-vel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probalhatjuk-inditani-de-ezt-scriptbol-kell" class="md-nav__link">
+    próbálhatjuk indítani, de ezt scriptből kell
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-is-lehet-tolteni-a-bitwardensh-t-de-azt-is-masoltam" class="md-nav__link">
+    le is lehet tölteni a bitwarden.sh-t de azt is másoltam
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inditjuk-a-scriptet" class="md-nav__link">
+    inditjuk a scriptet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="rsync">rsync</h1>
+<h2 id="passbolt-bitwarden-koltoztetese">passbolt, bitwarden költöztetése</h2>
+<p><a href="https://linux.die.net/man/1/rsync">rsync weblap</a></p>
+<h2 id="ez-mind2-esetre-alkalmazando">ez mind2 esetre alkalmazandó</h2>
+<ul>
+<li>somekey létrehozása a forrás szerveren</li>
+<li>használatban lévő public key belemásolása</li>
+<li>chmod 600 somekey; máskép sírna h nem biztonságos</li>
+</ul>
+<h2 id="command-felepitese">command felépítése</h2>
+<ul>
+<li>rsync : command</li>
+<li>-arvpz : command kapcsolók</li>
+<li>--progress : mutassa h hól jár a fájl át vitel</li>
+<li>-e "ssh : meghatározza, h ssh-val akarsz kapcsolodni</li>
+<li>-o StrictHostKeyChecking=no : kinyomja a kulcsal kapcsolatos y/n-t</li>
+<li>-o UserKnownHostsFile=/dev/null : a hibadatot mindent a dev/nullba ír</li>
+<li>-i $HOME/.ssh/somekey " : hol keresse és milyen néven a kulcsot</li>
+<li>~/passbolt_docker : mit másolunk; ~ helyetesiti a helyét most pl a root mappát, de ki is lehet írni</li>
+<li>root@passboltnew.keikami.tk:/root/ : hova csatlakozunk és ott hova másolja a kijelölt fájlt</li>
+<li>passboltnew.keikami.tk : ip helyet van mert van dns-feloldásunk</li>
+</ul>
+<h2 id="passbolt-atkoltoztetese">passbolt átköltöztetése</h2>
+<h3 id="elotte-leallitjuk-a-passboltot-hibakat-okozhat-ha-futto-allapotban-koltoztetjuk">előtte leállítjuk a passboltot, hibákat okozhat ha futtó állapotban költöztetjük</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>docker-compose -f passbolt_docker/docker-compose.yml down
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="a-passbolt-egesz-mappajat-visszuk">a passbolt egész mappáját visszük</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>rsync -arvpz --progress -e <span class="s2">&quot;ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i </span><span class="nv">$HOME</span><span class="s2">/.ssh/somekey &quot;</span>  ~/passbolt_docker  root@passboltnew.keikami.tk:/root/
+</code></pre></div>
+</td></tr></table>
+
+<h4 id="a-cel-szerveren-elinditjuk-a-docker-compost">a cél szerveren elindítjuk a docker-compost</h4>
+<h5 id="-f-azert-kell-mert-fajlbol-inditjuk-nem-vagyunk-a-mappajaban">-f azért kell mert fájlból indítjuk; nem vagyunk a mappájában</h5>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>docker-compose -f passbolt_docker/docker-compose.yml up
+</code></pre></div>
+</td></tr></table>
+
+<h4 id="ekkor-letolti-a-kontenerhez-imageseket">ekkor letölti a konténerhez imageseket</h4>
+<h4 id="ha-ez-sikeresen-megtortent-le-downoljuk-a-docker-compost">ha ez sikeresen megtörtént le downoljuk a docker-compost</h4>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>docker-compose -f passbolt_docker/docker-compose.yml down
+</code></pre></div>
+</td></tr></table>
+
+<h4 id="ezutnan-torolnunk-kell-amit-voljumokon-letre-hozott-maganak-adatbazis-adatokat">ezutnán törölnünk kell amit voljumokon létre hozott magának adatbázis adatokat</h4>
+<h4 id="ezt-azert-kell-mert-a-ymlben-benne-van-h-maganak-hozza-ezeket-letre">ezt azért kell mert a ymlben benne van h magának hozza ezeket létre</h4>
+<h4 id="ha-nem-igy-lenne-besirna-h-mar-ott-van-de-igy-nem-problema-ha-felul-irjuk-lecsereljok-oket">ha nem így lenne besírna h már ott van, de így nem próbléma ha felül írjuk, lecseréljök őket</h4>
+<h4 id="ymlben-a-volumes-deklaralas-jelen-esetben-igy-nezett-ki">ymlben a volumes deklarálás jelen esetben így nézett ki</h4>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>volumes:
+  database_volume:
+  gpg_volume:
+  images_volume:
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="ezzel-bele-lepunk-minden-mappaba-amit-a-varlibdockervolumes-tartalmaz-majd-azokban-toroli-a-_data-t-tartalmazo-fajlokat-es-azok-tartalmat">ezzel bele lépünk minden mappába amit a /var/lib/docker/volumes/ tartalmaz, majd azokban töröli a _data-t tartalmazó fájlokat és azok tartalmát</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>rm -rf */_data/*
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="at-masoljuk-a-szukseges-adatbazis-adatokat">át másoljuk a szükséges adatbázis adatokat</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>rsync -arvpz --progress -e <span class="s2">&quot;ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i </span><span class="nv">$HOME</span><span class="s2">/.ssh/somekey &quot;</span>  /var/lib/docker/volumes/passbolt*  root@passboltnew.keikami.tk:/var/lib/docker/volumes/
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="a-weblap-validalashoz-szukseg-volt-nginx-re-igy-azt-is-at-masoljuk">a weblap validáláshoz szükség volt nginx-re így azt is át másoljuk</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>rsync -arvpz --progress -e <span class="s2">&quot;ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i </span><span class="nv">$HOME</span><span class="s2">/.ssh/somekey &quot;</span>  /etc/nginx/* root@passboltnew.keikami.tk:/etc/nginx/
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="valamint-a-tanusitvanyokat-is-amit-a-letsencrypt-generalt">valamint a tanusítványokat is amit a letsencrypt generált</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>rsync -arvpz --progress -e <span class="s2">&quot;ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i </span><span class="nv">$HOME</span><span class="s2">/.ssh/somekey &quot;</span>  /etc/letsencrypt/* root@passboltnew.keikami.tk:/etc/letsencrypt/
+</code></pre></div>
+</td></tr></table>
+
+<h4 id="majd-a-cel-gepen-telepitjuk-majd-el-is-inditjuk-azt">majd a cél gépen telepítjük, majd el is indítjuk azt</h4>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>apt install nginx
+</code></pre></div>
+</td></tr></table>
+
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>service nginx start
+</code></pre></div>
+</td></tr></table>
+
+<h4 id="vegul-a-docker-compose-up-ot-ismet-kiadjuk">végül a docker-compose up-ot ismét kiadjuk</h4>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>docker-compose -f passbolt_docker/docker-compose.yml up
+</code></pre></div>
+</td></tr></table>
+
+<h2 id="bitwarden-koltoztetese">BITWARDEN költöztetése</h2>
+<h3 id="eloszor-is-ezt-is-le-kell-allitani">Előszőr is ezt is le kell állítani</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>docker-compose down
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="itt-egyszerubb-a-helyzet-mert-a-voljumok-helye-mindenhol-pontosan-meg-van-adva">itt egyszerűbb a helyzet mert a voljumok helye mindenhol pontosan meg van adva</h3>
+<h3 id="bwdata-masolas-itt-ip-vel">bwdata másolás, itt ip-vel</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>rsync -arvpz --progress -e <span class="s2">&quot;ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i </span><span class="nv">$HOME</span><span class="s2">/.ssh/somekey &quot;</span>  ~/bwdata root@94.237.99.43:/root/
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="probalhatjuk-inditani-de-ezt-scriptbol-kell">próbálhatjuk indítani, de ezt scriptből kell</h3>
+<h3 id="le-is-lehet-tolteni-a-bitwardensh-t-de-azt-is-masoltam">le is lehet tölteni a bitwarden.sh-t de azt is másoltam</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>rsync -arvpz --progress -e <span class="s2">&quot;ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i </span><span class="nv">$HOME</span><span class="s2">/.ssh/somekey &quot;</span>  ~/bwdata ~/bitwarden.sh root@94.237.99.43:/root/
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="inditjuk-a-scriptet">inditjuk a scriptet</h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>./bitwarden.sh start
+</code></pre></div>
+</td></tr></table>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../reversproxy-nginx/" title="Revers proxy config- nginx" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Revers proxy config- nginx
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../../provider/upcloud/" title="upcload" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                upcload
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="../../assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.7f7c8775.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
